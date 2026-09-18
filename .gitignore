@@ -1,0 +1,5 @@
+Release/
+*.user
+*.suo
+.vs/
+nexus_description.bbcode

@@ -1,0 +1,742 @@
+{
+	"modName": "HitReactionNVSE",
+	"displayName": "Hit Reaction NVSE",
+	"description": "Configure hit reaction physics, death tremors, and variation",
+	"saveFile": "HitReactionNVSE.ini",
+	"minMCMVersion": 1.00,
+	"minModVersion": 1.00,
+	"requirements": [
+		{ "type": "file", "file": "NVSE/plugins/scripts/ln_hitreact-mcm.txt" },
+		{ "type": "file", "file": "NVSE/plugins/HitReactionNVSE.dll" }
+	],
+	"submenus": {
+		"1": {
+			"listTitle": "General",
+			"pageTitle": "General Settings",
+			"columns": 1,
+			"enable": 1,
+			"active": 1,
+			"options": {
+				"1": {
+					"title": "Physics",
+					"enable": 1,
+					"type": 0
+				},
+				"2": {
+					"title": "Impulse",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Base impulse force applied to hit reactions",
+					"vars": [{ "configINI": "General:fImpulse", "default": 50.0 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 0.5,
+						"valueMax": 150.0,
+						"valueMin": 0.0
+					}
+				},
+				"3": {
+					"title": "Stiffness",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Stiffness of the reaction physics (higher = snappier return)",
+					"vars": [{ "configINI": "General:fStiffness", "default": 156.0 }],
+					"scale": {
+						"valueDecimal": 0,
+						"valueIncrement": 5,
+						"valueMax": 500.0,
+						"valueMin": 1.0
+					}
+				},
+				"4": {
+					"title": "Damping",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Damping factor for reactions (higher = less oscillation)",
+					"vars": [{ "configINI": "General:fDamping", "default": 8.0 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 0.5,
+						"valueMax": 50.0,
+						"valueMin": 0.0
+					}
+				},
+				"5": {
+					"title": "Decay",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "How quickly the reaction fades over time",
+					"vars": [{ "configINI": "General:fDecay", "default": 3.0 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 0.5,
+						"valueMax": 20.0,
+						"valueMin": 0.1
+					}
+				},
+				"6": {
+					"title": " ",
+					"enable": 1,
+					"type": 0
+				},
+				"7": {
+					"title": "Rotation Scales",
+					"enable": 1,
+					"type": 0
+				},
+				"8": {
+					"title": "Pitch Scale",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Pitch (forward/backward) rotation scale",
+					"vars": [{ "configINI": "General:fPitchScale", "default": 1.0 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.1,
+						"valueMax": 3.0,
+						"valueMin": 0.0
+					}
+				},
+				"9": {
+					"title": "Roll Scale",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Roll (side tilt) rotation scale",
+					"vars": [{ "configINI": "General:fRollScale", "default": 0.7 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.1,
+						"valueMax": 3.0,
+						"valueMin": 0.0
+					}
+				},
+				"10": {
+					"title": "Yaw Scale",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Yaw (left/right turn) rotation scale",
+					"vars": [{ "configINI": "General:fYawScale", "default": 0.3 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.1,
+						"valueMax": 3.0,
+						"valueMin": 0.0
+					}
+				},
+				"11": {
+					"title": "Max Body Degrees",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Maximum rotation in degrees for body reactions",
+					"vars": [{ "configINI": "General:fMaxDeg", "default": 25.0 }],
+					"scale": {
+						"valueDecimal": 0,
+						"valueIncrement": 1,
+						"valueMax": 90.0,
+						"valueMin": 1.0
+					}
+				},
+				"12": {
+					"title": "Max Head Degrees",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Maximum rotation in degrees for head reactions",
+					"vars": [{ "configINI": "General:fMaxHeadDeg", "default": 35.0 }],
+					"scale": {
+						"valueDecimal": 0,
+						"valueIncrement": 1,
+						"valueMax": 90.0,
+						"valueMin": 1.0
+					}
+				},
+				"13": {
+					"title": " ",
+					"enable": 1,
+					"type": 0
+				},
+				"14": {
+					"title": "Other",
+					"enable": 1,
+					"type": 0
+				},
+				"15": {
+					"title": "Cull Distance",
+					"type": 2,
+					"enable": 1,
+					"mouse": "Reactions are not applied beyond this distance from the camera",
+					"vars": [{ "configINI": "General:fCullDist", "default": 4096 }],
+					"scale": {
+						"valueDecimal": 0,
+						"valueIncrement": 256,
+						"valueMax": 16384,
+						"valueMin": 512
+					}
+				},
+				"16": {
+					"title": "Affect Player",
+					"type": 5,
+					"enable": 1,
+					"mouse": "Apply hit reactions to the player character",
+					"vars": [{ "configINI": "General:bAffectPlayer", "default": 0 }]
+				}
+			}
+		},
+		"2": {
+			"listTitle": "Limbs",
+			"pageTitle": "Limb Multipliers",
+			"columns": 1,
+			"enable": 1,
+			"options": {
+				"1": {
+					"title": "Arms",
+					"enable": 1,
+					"type": 0
+				},
+				"2": {
+					"title": "Arm Multiplier",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Overall arm reaction strength multiplier",
+						"vars": [{ "configINI": "General:fArmMult", "default": 2.0 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 0.1,
+						"valueMax": 10.0,
+						"valueMin": 0.0
+					}
+				},
+				"3": {
+					"title": "Arm Passive",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Arm reaction when the arm itself is not hit",
+					"vars": [{ "configINI": "General:fArmPassive", "default": 0.4 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.1,
+						"valueMax": 5.0,
+						"valueMin": 0.0
+					}
+				},
+				"4": {
+					"title": "Forearm Passive",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Forearm reaction when the forearm itself is not hit",
+					"vars": [{ "configINI": "General:fForearmPassive", "default": 0.7 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.1,
+						"valueMax": 5.0,
+						"valueMin": 0.0
+					}
+				},
+				"5": {
+					"title": "Arm Hit",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Arm reaction strength when directly hit",
+						"vars": [{ "configINI": "General:fArmHit", "default": 1.3 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 0.1,
+						"valueMax": 10.0,
+						"valueMin": 0.0
+					}
+				},
+				"6": {
+					"title": "Forearm Hit",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Forearm reaction strength when directly hit",
+						"vars": [{ "configINI": "General:fForearmHit", "default": 1.6 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 0.1,
+						"valueMax": 10.0,
+						"valueMin": 0.0
+					}
+				},
+				"7": {
+					"title": "Clavicle Hit",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Clavicle/shoulder reaction strength when directly hit",
+						"vars": [{ "configINI": "General:fClavicleHit", "default": 0.7 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 0.1,
+						"valueMax": 10.0,
+						"valueMin": 0.0
+					}
+				},
+				"8": {
+					"title": " ",
+					"enable": 1,
+					"type": 0
+				},
+				"9": {
+					"title": "Legs",
+					"enable": 1,
+					"type": 0
+				},
+				"10": {
+					"title": "Leg Multiplier",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Overall leg reaction strength multiplier",
+					"vars": [{ "configINI": "General:fLegMult", "default": 2.0 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 0.1,
+						"valueMax": 10.0,
+						"valueMin": 0.0
+					}
+				},
+				"11": {
+					"title": "Thigh Passive",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Opposite thigh reaction when one leg is hit",
+					"vars": [{ "configINI": "General:fThighPassive", "default": 0.2 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 5.0,
+						"valueMin": 0.0
+					}
+				},
+				"12": {
+					"title": "Calf Passive",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Opposite calf reaction when one leg is hit",
+					"vars": [{ "configINI": "General:fCalfPassive", "default": 0.1 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 5.0,
+						"valueMin": 0.0
+					}
+				},
+				"13": {
+					"title": "Thigh Hit",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Thigh reaction strength when a leg is directly hit",
+					"vars": [{ "configINI": "General:fThighHit", "default": 1.25 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 10.0,
+						"valueMin": 0.0
+					}
+				},
+				"14": {
+					"title": "Calf Hit",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Calf reaction strength when a leg is directly hit",
+					"vars": [{ "configINI": "General:fCalfHit", "default": 0.9 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 10.0,
+						"valueMin": 0.0
+					}
+				},
+				"15": {
+					"title": "Pelvis Hit",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Pelvis reaction strength from leg hits",
+					"vars": [{ "configINI": "General:fPelvisHit", "default": 0.65 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 10.0,
+						"valueMin": 0.0
+					}
+				},
+				"16": {
+					"title": "Knee Buckle Strength",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Strength of the knee buckle on heavy leg hits",
+					"vars": [{ "configINI": "General:fKneeBuckleMult", "default": 1.25 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 5.0,
+						"valueMin": 0.0
+					}
+				},
+				"17": {
+					"title": " ",
+					"enable": 1,
+					"type": 0
+				},
+				"18": {
+					"title": "Head",
+					"enable": 1,
+					"type": 0
+				},
+				"19": {
+					"title": "Head Follow",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "How much the head follows body reactions from non-head hits (lower = less head sway on arm/torso hits)",
+					"vars": [{ "configINI": "General:fHeadFollow", "default": 0.2 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 1.0,
+						"valueMin": 0.0
+					}
+				}
+			}
+		},
+		"3": {
+			"listTitle": "Death",
+			"pageTitle": "Death Tremor Settings",
+			"columns": 1,
+			"enable": 1,
+			"options": {
+				"1": {
+					"title": "Directional Death Tremors",
+					"type": 5,
+					"enable": 1,
+					"mouse": "Enable directional tremors for deaths primed by a fatal hit",
+					"vars": [{ "configINI": "Death:bEnableDeathTremor", "default": 1 }]
+				},
+				"2": {
+					"title": " ",
+					"enable": 1,
+					"type": 0
+				},
+				"3": {
+					"title": "Tremor Duration",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "How long death tremors last in seconds",
+					"vars": [{ "configINI": "Death:fDeathTremorDuration", "default": 2.4 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 0.5,
+						"valueMax": 20.0,
+						"valueMin": 0.0
+					}
+				},
+				"4": {
+					"title": "Tremor Strength",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Intensity of death tremors",
+					"vars": [{ "configINI": "Death:fDeathTremorStrength", "default": 5.0 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 1,
+						"valueMax": 100.0,
+						"valueMin": 0.0
+					}
+				},
+				"5": {
+					"title": "Tremor Chance",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Probability of death tremor occurring (0 = never, 1 = always)",
+					"vars": [{ "configINI": "Death:fDeathTremorChance", "default": 1.0 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 1.0,
+						"valueMin": 0.0
+					}
+				},
+				"6": {
+					"title": " ",
+					"enable": 1,
+					"type": 0
+				},
+				"7": {
+					"title": "Delay Min",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Minimum delay in seconds before death tremors begin (lets ragdoll settle first)",
+					"vars": [{ "configINI": "Death:fDeathTremorDelayMin", "default": 0.16 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.02,
+						"valueMax": 5.0,
+						"valueMin": 0.0
+					}
+				},
+				"8": {
+					"title": "Delay Max",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Maximum delay in seconds before death tremors begin",
+					"vars": [{ "configINI": "Death:fDeathTremorDelayMax", "default": 0.24 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.02,
+						"valueMax": 5.0,
+						"valueMin": 0.0
+					}
+				},
+				"9": {
+					"title": " ",
+					"enable": 1,
+					"type": 0
+				},
+				"10": {
+					"title": "Post-death Fallback",
+					"enable": 1,
+					"type": 0
+				},
+				"11": {
+					"title": "Enable Fallback Tremors",
+					"type": 5,
+					"enable": 1,
+					"mouse": "Enable generic tremors when no directional fatal hit was captured",
+					"vars": [{ "configINI": "Death:bEnablePostDeathTremor", "default": 1 }]
+				},
+				"12": {
+					"title": "Fallback Duration",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Base duration of post-death fallback tremors in seconds",
+					"vars": [{ "configINI": "Death:fPostDeathTremorDuration", "default": 2.4 }],
+					"scale": {
+						"valueDecimal": 1,
+						"valueIncrement": 0.5,
+						"valueMax": 20.0,
+						"valueMin": 0.0
+					}
+				},
+				"13": {
+					"title": "Fallback Strength",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Strength multiplier for post-death fallback tremors",
+					"vars": [{ "configINI": "Death:fPostDeathTremorMult", "default": 1.0 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.1,
+						"valueMax": 5.0,
+						"valueMin": 0.0
+					}
+				}
+			}
+		},
+		"4": {
+			"listTitle": "Variation",
+			"pageTitle": "Reaction Variation",
+			"columns": 1,
+			"enable": 1,
+			"options": {
+				"1": {
+					"title": "Chance & Skipping",
+					"enable": 1,
+					"type": 0
+				},
+				"2": {
+						"title": "Reaction Chance",
+						"type": 2.5,
+						"enable": 1,
+						"mouse": "Base chance of a hit reaction occurring (0 = never, 1 = always)",
+						"vars": [{ "configINI": "Variation:fReactionChance", "default": 0.98 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.01,
+						"valueMax": 1.0,
+						"valueMin": 0.0
+					}
+				},
+				"3": {
+						"title": "Skip Chance",
+						"type": 2.5,
+						"enable": 1,
+						"mouse": "Chance to skip hits below the weak-hit threshold",
+						"vars": [{ "configINI": "Variation:fSkipChance", "default": 0.35 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 1.0,
+						"valueMin": 0.0
+					}
+				},
+				"4": {
+						"title": "Head Skip Chance",
+						"type": 2.5,
+						"enable": 1,
+						"mouse": "Chance to skip head hits below the weak-hit threshold",
+						"vars": [{ "configINI": "Variation:fHeadSkipChance", "default": 0.1 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 1.0,
+						"valueMin": 0.0
+					}
+				},
+				"5": {
+						"title": "Skip Threshold",
+						"type": 2.5,
+						"enable": 1,
+						"mouse": "Hits below this fraction of maximum health count as weak",
+						"vars": [{ "configINI": "Variation:fSkipThreshold", "default": 0.1 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.01,
+						"valueMax": 0.5,
+						"valueMin": 0.0
+					}
+				},
+					"6": {
+						"title": "Hit Cooldown",
+						"type": 2.5,
+						"enable": 1,
+						"mouse": "Seconds before the same actor can receive another reaction impulse",
+						"vars": [{ "configINI": "Variation:fHitCooldown", "default": 0.18 }],
+						"scale": {
+							"valueDecimal": 2,
+							"valueIncrement": 0.01,
+							"valueMax": 1.0,
+							"valueMin": 0.0
+						}
+					},
+					"7": {
+						"title": " ",
+						"enable": 1,
+						"type": 0
+					},
+					"8": {
+						"title": "Randomization",
+						"enable": 1,
+						"type": 0
+					},
+					"9": {
+						"title": "Random Min",
+						"type": 2.5,
+						"enable": 1,
+					"mouse": "Minimum random variation multiplier applied to reactions",
+					"vars": [{ "configINI": "Variation:fRandomMin", "default": 0.55 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 2.0,
+						"valueMin": 0.0
+					}
+				},
+					"10": {
+						"title": "Random Max",
+						"type": 2.5,
+						"enable": 1,
+					"mouse": "Maximum random variation multiplier applied to reactions",
+					"vars": [{ "configINI": "Variation:fRandomMax", "default": 1.4 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 5.0,
+						"valueMin": 0.1
+					}
+				},
+					"11": {
+						"title": " ",
+						"enable": 1,
+						"type": 0
+					},
+					"12": {
+						"title": "Scaling",
+						"enable": 1,
+						"type": 0
+					},
+					"13": {
+						"title": "Armor Absorb",
+						"type": 2.5,
+						"enable": 1,
+					"mouse": "How much armor reduces reaction strength (0 = none, 1 = full)",
+					"vars": [{ "configINI": "Variation:fArmorAbsorb", "default": 0.5 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 1.0,
+						"valueMin": 0.0
+					}
+				},
+					"14": {
+						"title": "Reference Damage",
+						"type": 2.5,
+						"enable": 1,
+					"mouse": "Reference damage amount used for scaling reaction strength",
+					"vars": [{ "configINI": "Variation:fRefDmg", "default": 50.0 }],
+					"scale": {
+						"valueDecimal": 0,
+						"valueIncrement": 5,
+						"valueMax": 500.0,
+						"valueMin": 5.0
+					}
+				},
+					"15": {
+						"title": "HP Cap",
+						"type": 2.5,
+						"enable": 1,
+					"mouse": "HP cap used for reaction scaling calculations",
+					"vars": [{ "configINI": "Variation:fHPCap", "default": 200.0 }],
+					"scale": {
+						"valueDecimal": 0,
+						"valueIncrement": 10,
+						"valueMax": 1000.0,
+						"valueMin": 10.0
+					}
+				},
+					"16": {
+						"title": "HP Floor",
+						"type": 2.5,
+						"enable": 1,
+					"mouse": "Minimum HP multiplier for reaction scaling",
+					"vars": [{ "configINI": "Variation:fHPFloor", "default": 0.2 }],
+					"scale": {
+						"valueDecimal": 2,
+						"valueIncrement": 0.05,
+						"valueMax": 1.0,
+						"valueMin": 0.0
+					}
+				}
+			}
+		},
+		"5": {
+			"listTitle": "Posture",
+			"pageTitle": "Wounded Posture",
+			"columns": 1,
+			"enable": 1,
+			"options": {
+				"1": {
+					"title": "Enable Posture",
+					"type": 5,
+					"enable": 1,
+					"mouse": "NPCs hunch over as they take damage",
+					"vars": [{ "configINI": "Posture:bEnablePosture", "default": 0 }]
+				},
+				"2": {
+					"title": " ",
+					"enable": 1,
+					"type": 0
+				},
+				"3": {
+					"title": "Max Posture Degrees",
+					"type": 2.5,
+					"enable": 1,
+					"mouse": "Maximum hunch angle when at low health",
+					"vars": [{ "configINI": "Posture:fPostureMaxDeg", "default": 15.0 }],
+					"scale": {
+						"valueDecimal": 0,
+						"valueIncrement": 1,
+						"valueMax": 45.0,
+						"valueMin": 1.0
+					}
+				}
+			}
+		}
+	}
+}
