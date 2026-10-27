@@ -123,11 +123,16 @@
     <MakeDir Directories="D:\Modding\VNV\mods\HitReactionNVSE\NVSE\user_defined_functions\hitreact" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="D:\Modding\VNV\mods\HitReactionNVSE\NVSE\Plugins\" />
     <Copy SourceFiles="$(TargetDir)$(TargetName).pdb" DestinationFolder="D:\Modding\VNV\mods\HitReactionNVSE\NVSE\Plugins\" />
-    <Copy SourceFiles="$(ProjectDir)resources\config\HitReactionNVSE.ini" DestinationFolder="D:\Modding\VNV\mods\HitReactionNVSE\config\" Condition="!Exists('D:\Modding\VNV\mods\HitReactionNVSE\config\HitReactionNVSE.ini')" />
-    <Copy SourceFiles="$(ProjectDir)resources\MCM\HitReactionNVSE.json" DestinationFolder="D:\Modding\VNV\mods\HitReactionNVSE\MCM\" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="$(ProjectDir)resources\NVSE\Plugins\scripts\ln_hitreact-mcm.txt" DestinationFolder="D:\Modding\VNV\mods\HitReactionNVSE\NVSE\Plugins\scripts\" SkipUnchangedFiles="true" />
-    <Copy SourceFiles="$(ProjectDir)resources\NVSE\user_defined_functions\hitreact\OnMCMUpdate.gek" DestinationFolder="D:\Modding\VNV\mods\HitReactionNVSE\NVSE\user_defined_functions\hitreact\" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(ProjectDir)mod\config\HitReactionNVSE.ini" DestinationFolder="D:\Modding\VNV\mods\HitReactionNVSE\config\" Condition="!Exists('D:\Modding\VNV\mods\HitReactionNVSE\config\HitReactionNVSE.ini')" />
+    <Copy SourceFiles="$(ProjectDir)mod\MCM\HitReactionNVSE.json" DestinationFolder="D:\Modding\VNV\mods\HitReactionNVSE\MCM\" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(ProjectDir)mod\NVSE\Plugins\scripts\ln_hitreact-mcm.txt" DestinationFolder="D:\Modding\VNV\mods\HitReactionNVSE\NVSE\Plugins\scripts\" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(ProjectDir)mod\NVSE\user_defined_functions\hitreact\OnMCMUpdate.gek" DestinationFolder="D:\Modding\VNV\mods\HitReactionNVSE\NVSE\user_defined_functions\hitreact\" SkipUnchangedFiles="true" />
   </Target>
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <Target Name="StageMod" BeforeTargets="PostBuild" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <MakeDir Directories="$(ProjectDir)mod\NVSE\Plugins" />
+    <Copy SourceFiles="$(TargetPath);$(TargetDir)$(TargetName).pdb" DestinationFolder="$(ProjectDir)mod\NVSE\Plugins" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="$(ProjectDir)LICENSE" DestinationFolder="$(ProjectDir)mod" SkipUnchangedFiles="true" />
+  </Target>
 </Project>
